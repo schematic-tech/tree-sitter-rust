@@ -1,0 +1,86 @@
+================================================================================
+Turbofish in type positions
+================================================================================
+
+type Buffer<T> = Vec::<T>;
+type Iter<'a, T> = std::slice::IterMut::<'a, T>;
+fn visit<T, F>(items: Vec::<T>, mut f: F)
+where F: FnMut(T, std::slice::IterMut::<T>) {
+    let nested: Option::<Vec::<T>> = None;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_item
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
+    (generic_type
+      (type_identifier)
+      (type_arguments
+        (type_identifier))))
+  (type_item
+    (type_identifier)
+    (type_parameters
+      (lifetime_parameter
+        (lifetime
+          (identifier)))
+      (type_parameter
+        (type_identifier)))
+    (generic_type
+      (scoped_type_identifier
+        (scoped_identifier
+          (identifier)
+          (identifier))
+        (type_identifier))
+      (type_arguments
+        (lifetime
+          (identifier))
+        (type_identifier))))
+  (function_item
+    (identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier))
+      (type_parameter
+        (type_identifier)))
+    (parameters
+      (parameter
+        (identifier)
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (type_identifier))))
+      (parameter
+        (mutable_specifier)
+        (identifier)
+        (type_identifier)))
+    (where_clause
+      (where_predicate
+        (type_identifier)
+        (trait_bounds
+          (function_type
+            (type_identifier)
+            (parameters
+              (type_identifier)
+              (generic_type
+                (scoped_type_identifier
+                  (scoped_identifier
+                    (identifier)
+                    (identifier))
+                  (type_identifier))
+                (type_arguments
+                  (type_identifier))))))))
+    (block
+      (let_declaration
+        (identifier)
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (generic_type
+              (type_identifier)
+              (type_arguments
+                (type_identifier)))))
+        (identifier)))))

@@ -1,7 +1,7 @@
 [package]
 name = "tree-sitter-rust"
 description = "Rust grammar for tree-sitter"
-version = "0.24.2"
+version = "0.24.2-schematic.1"
 authors = [
   "Max Brunsfeld <maxbrunsfeld@gmail.com>",
   "Amaan Qureshi <amaanq12@gmail.com>",
@@ -10,7 +10,8 @@ license = "MIT"
 readme = "README.md"
 keywords = ["incremental", "parsing", "tree-sitter", "rust"]
 categories = ["parsing", "text-editors"]
-repository = "https://github.com/tree-sitter/tree-sitter-rust"
+repository = "https://github.com/schematic-internal/tree-sitter-rust"
+publish = false
 edition = "2021"
 autoexamples = false
 
