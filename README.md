@@ -1,5 +1,12 @@
 # tree-sitter-rust
 
+This is Schematic's MIT-licensed fork of upstream `tree-sitter-rust` v0.24.2.
+The Rust package is [`schematic-tree-sitter-rust`](https://crates.io/crates/schematic-tree-sitter-rust);
+its Rust library name remains `tree_sitter_rust`. The fork accepts turbofish syntax
+in generic type positions, including function-trait parameter types.
+
+The upstream project information below is retained for attribution.
+
 [![CI][ci]](https://github.com/tree-sitter/tree-sitter-rust/actions/workflows/ci.yml)
 [![discord][discord]](https://discord.gg/w7nTvsVJhm)
 [![matrix][matrix]](https://matrix.to/#/#tree-sitter-chat:matrix.org)

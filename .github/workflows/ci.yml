@@ -1,58 +1,32 @@
-name: CI
+name: Validate Schematic parser
 
 on:
   push:
-    branches: [master]
-    paths:
-      - grammar.js
-      - src/**
-      - test/**
-      - bindings/**
-      - binding.gyp
+    branches: [main]
   pull_request:
-    paths:
-      - grammar.js
-      - src/**
-      - test/**
-      - bindings/**
-      - binding.gyp
+    branches: [main]
 
-concurrency:
-  group: ${{github.workflow}}-${{github.ref}}
-  cancel-in-progress: true
+permissions:
+  contents: read
 
 jobs:
   test:
-    name: Test parser
-    runs-on: ${{matrix.os}}
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-14]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    env:
+      RUSTUP_TOOLCHAIN: 1.97.1
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v5
-      - name: Set up tree-sitter
-        uses: tree-sitter/setup-action/cli@v2
-      - name: Set up examples
-        run: |-
-          git clone https://github.com/rust-lang-nursery/bitflags examples/bitflags --single-branch --depth=1 --filter=blob:none
-          git clone https://github.com/rust-lang/libc examples/libc --single-branch --depth=1 --filter=blob:none
-          git clone https://github.com/rust-lang/regex examples/regex --single-branch --depth=1 --filter=blob:none
-          git clone https://github.com/serde-rs/serde examples/serde --single-branch --depth=1 --filter=blob:none
-          git clone https://github.com/tokio-rs/tokio examples/tokio --single-branch --depth=1 --filter=blob:none
-      - name: Run tests
-        uses: tree-sitter/parser-test-action@v3
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
-          test-rust: true
-          test-node: false
-          test-python: true
-          test-go: true
-          test-swift: true
-      - name: Parse examples
-        uses: tree-sitter/parse-action@v4
-        with:
-          files: |
-            examples/**/*.rs
-            !examples/libc/ctest/templates/test.rs
-            !examples/libc/ctest/tests/input/invalid_syntax.rs
+          persist-credentials: false
+      - name: Install Rust
+        run: rustup toolchain install 1.97.1 --profile minimal
+      - name: Test Rust binding and documentation
+        run: cargo test --locked
+      - name: Verify packaged crate
+        run: cargo package --locked
+      - name: Test grammar corpus
+        run: npx --yes tree-sitter-cli@0.26.7 test
